@@ -42,10 +42,12 @@ Battle time runs in **ticks of 0.5 s**:
 
 - Every item has a **cooldown** in ticks. Each tick, every item charges by one. When the charge reaches the cooldown, the item fires and starts charging again.
 - **Damage** hits the enemy. **Block** absorbs incoming damage first. Only the rest is lost from HP. Unused block stays for the rest of the battle.
+- **Poison** adds stacks to the enemy. Every 3 ticks (1.5 s) a poisoned fighter loses 1 HP per stack. Poison ignores block, and stacks never wear off.
+- **Heal** restores the owner's HP, never above max HP. A fighter already knocked out in that tick can't heal back up.
 - A fighter at 0 HP is knocked out. If both fall in the same tick, the hero loses.
 - A battle lasts at most **60 ticks (30 s)**. If time runs out, the fighter with the higher share of their max HP wins. A tie counts as a loss for the hero.
 
-The battle screen shows HP and block for both fighters, their items, a timer, and a combat log. Hover over values to see an explanation of each rule.
+The battle screen shows HP, block and poison stacks for both fighters, their items, a timer, and a combat log. Hover over values to see an explanation of each rule.
 
 ### Item catalog
 
@@ -57,8 +59,14 @@ The battle screen shows HP and block for both fighters, their items, a timer, an
 | 🛡️ Oak Buckler | 3 | 5 | +4 block |
 | 🍳 Pot Lid | 2 | 3 | +2 block |
 | ⚔️ Spiked Shield | 4 | 6 | 3 damage, +3 block |
+| 🐍 Viper Fang | 3 | 4 | +1 poison |
+| 🦂 Scorpion Stinger | 4 | 5 | 2 damage, +1 poison |
+| 🧪 Venom Flask | 5 | 8 | +3 poison |
+| 🌿 Healing Herb | 2 | 5 | +3 HP |
+| 🩹 Field Bandage | 3 | 6 | +2 block, +3 HP |
+| 🍖 Hearty Ration | 4 | 8 | +8 HP |
 
-Items have no sets and no other effects. The "How it works" panel in the shop summarises these rules in the game itself.
+Items have no sets. The "How it works" panel in the shop summarises these rules in the game itself.
 
 ## Current starter features
 
