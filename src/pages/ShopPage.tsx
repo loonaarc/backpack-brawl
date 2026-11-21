@@ -5,7 +5,7 @@ import { RulesPanel } from "../components/RulesPanel";
 import { RunHeader } from "../components/RunHeader";
 import { Shop } from "../components/Shop";
 import { fightBlocker, searchFailed, startBattle, startSearch, updateRun } from "../game";
-import { buyItem, sellItem } from "../run";
+import { buyItem, rerollShop, sellItem } from "../run";
 import { useActiveGame } from "../state/GameContext";
 
 export function ShopPage() {
@@ -18,6 +18,10 @@ export function ShopPage() {
 
   function handleSell(slot: number) {
     update((current) => updateRun(current, (currentRun) => sellItem(currentRun, slot)));
+  }
+
+  function handleReroll() {
+    update((current) => updateRun(current, rerollShop));
   }
 
   // Once the opponent is found the phase becomes "battle" and RequireRoute redirects to the battle page.
@@ -40,7 +44,7 @@ export function ShopPage() {
 
       {/* While searching, the whole shop/backpack area is disabled so the fighting build can't change. */}
       <fieldset disabled={phase !== "shop"} className="grid min-w-0 gap-4 disabled:opacity-60 lg:grid-cols-[1fr_16rem_18rem]">
-        <Shop run={run} onBuy={handleBuy} />
+        <Shop run={run} onBuy={handleBuy} onReroll={handleReroll} />
         <Backpack run={run} onSell={handleSell} />
         <aside className="flex flex-col gap-4">
           <RulesPanel open={run.round === 1} />

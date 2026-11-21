@@ -6,6 +6,7 @@ export const START_GOLD = 10;
 export const START_LIVES = 3;
 export const WINS_TO_VICTORY = 5;
 export const GOLD_PER_ROUND = 5;
+export const REROLL_COST = 1;
 
 export function newRun(seed: number): RunState {
   const roll = rollShop(seed);
@@ -67,6 +68,22 @@ export function sellItem(state: RunState, slot: number): RunState {
   const backpack = [...state.backpack];
   backpack[slot] = null;
   return { ...state, gold: state.gold + sellPrice(item.itemId), backpack };
+}
+
+/** Why the shop can't be rerolled right now, or `null` if it can. */
+export function rerollBlocker(state: RunState): string | null {
+  if (state.gold < REROLL_COST) return "Not enough gold";
+  return null;
+}
+
+/**
+ * Pays `REROLL_COST` and replaces all shop offers (sold ones included) with a fresh roll from the run's seed;
+ * unchanged state if not allowed. The seed advances, so the same run always rerolls to the same offers.
+ */
+export function rerollShop(state: RunState): RunState {
+  if (rerollBlocker(state) !== null) return state;
+  const roll = rollShop(state.seed);
+  return { ...state, gold: state.gold - REROLL_COST, seed: roll.seed, shop: roll.offers };
 }
 
 export type RunOutcome = "victory" | "defeat";
