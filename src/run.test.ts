@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buyItem, newRun, REROLL_COST, rerollShop, sellItem } from "./run";
+import { buyItem, moveItem, newRun, REROLL_COST, rerollShop, sellItem } from "./run";
 import type { RunState } from "./types";
 
 /** A run with a known shop: every offer is a Chipped Dagger (price 2). */
@@ -34,6 +34,26 @@ describe("sell", () => {
   it("does nothing for an empty slot", () => {
     const run = runWithDaggers();
     expect(sellItem(run, 0)).toBe(run);
+  });
+});
+
+describe("move", () => {
+  const dagger = { uid: "item-1", itemId: "chipped-dagger" };
+  const lid = { uid: "item-2", itemId: "pot-lid" };
+  const run = runWithDaggers({ backpack: [dagger, lid, null, null, null, null] });
+
+  it("moves an item to an empty slot", () => {
+    expect(moveItem(run, 0, 3).backpack).toEqual([null, lid, null, dagger, null, null]);
+  });
+
+  it("swaps with an occupied slot, so no item is lost or duplicated", () => {
+    expect(moveItem(run, 0, 1).backpack).toEqual([lid, dagger, null, null, null, null]);
+  });
+
+  it("does nothing for an empty source, the same slot or a slot outside the grid", () => {
+    expect(moveItem(run, 2, 3)).toBe(run);
+    expect(moveItem(run, 0, 0)).toBe(run);
+    expect(moveItem(run, 0, 6)).toBe(run);
   });
 });
 
