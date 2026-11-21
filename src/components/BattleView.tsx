@@ -91,13 +91,21 @@ export function BattleView({ battle, done, continueLabel, onSkip, onContinue }: 
 /** Hero actions | time | enemy actions. */
 const LOG_ROW = "grid grid-cols-[1fr_auto_1fr] items-start gap-2";
 
-/** Text colour per event: damage red, everything else neutral. */
+/** Text colour per event: damage red, poison purple, heal green, everything else neutral. */
 const EVENT_COLOUR: Partial<Record<BattleEventKind, string>> = {
   damage: "text-life",
+  poison: "text-purple-400",
+  "poison-tick": "text-purple-400",
+  heal: "text-green-400",
+};
+
+/** Icon for events that no item triggered directly (status effects ticking). */
+const STATUS_ICON: Partial<Record<BattleEventKind, string>> = {
+  "poison-tick": "☠️",
 };
 
 function LogLine({ event }: { event: BattleEvent }) {
-  const icon = getItem(event.itemId).icon;
+  const icon = event.itemId ? getItem(event.itemId).icon : (STATUS_ICON[event.kind] ?? "•");
   const byPlayer = event.source === "player";
   const text = (
     <span className={`flex gap-1.5 ${byPlayer ? "" : "flex-row-reverse text-right"} ${EVENT_COLOUR[event.kind] ?? ""}`}>
@@ -123,7 +131,7 @@ interface FighterPanelProps {
 }
 
 function FighterPanel({ side, icon, fighter, snapshot }: FighterPanelProps) {
-  const { hp, maxHp, block } = snapshot;
+  const { hp, maxHp, block, poison } = snapshot;
   const knockedOut = hp <= 0;
 
   return (
@@ -140,6 +148,9 @@ function FighterPanel({ side, icon, fighter, snapshot }: FighterPanelProps) {
 
       <Bar label="HP" value={hp} max={maxHp} text={`${hp} / ${maxHp}`} colour="bg-life" help={STATUS_HELP.hp} />
       <Bar label="Block" value={block} max={maxHp} text={`🛡️ ${block}`} colour="bg-block" help={STATUS_HELP.block} />
+      <p title={STATUS_HELP.poison} className={`cursor-help text-xs ${poison > 0 ? "font-bold text-purple-400" : "text-muted"}`} aria-label="Poison stacks">
+        ☠️ Poison: {poison}
+      </p>
 
       <ul className="flex flex-wrap gap-1" aria-label="Items">
         {fighter.items.map((item, index) => (
