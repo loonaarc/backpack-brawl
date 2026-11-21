@@ -7,6 +7,7 @@ const fighter = (maxHp: number, ...items: [number, ItemEffects][]): Fighter => (
   name: "Test",
   maxHp,
   items: items.map(([cooldown, effects], i) => ({ itemId: `item-${i}`, name: `Item ${i}`, icon: "•", cooldown, effects })),
+  activeSets: [],
 });
 
 /** A fighter that never does anything within a battle (cooldown longer than the battle). */
