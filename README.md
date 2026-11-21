@@ -44,29 +44,42 @@ Battle time runs in **ticks of 0.5 s**:
 - **Damage** hits the enemy. **Block** absorbs incoming damage first. Only the rest is lost from HP. Unused block stays for the rest of the battle.
 - **Poison** adds stacks to the enemy. Every 3 ticks (1.5 s) a poisoned fighter loses 1 HP per stack. Poison ignores block, and stacks never wear off.
 - **Heal** restores the owner's HP, never above max HP. A fighter already knocked out in that tick can't heal back up.
+- **Burn** (from the Fire set bonus) adds stacks to the enemy. Every 2 ticks (1 s) a burning fighter takes 2 damage per stack. Block absorbs it first, and burn loses 2 stacks each time until it wears off.
 - A fighter at 0 HP is knocked out. If both fall in the same tick, the hero loses.
 - A battle lasts at most **60 ticks (30 s)**. If time runs out, the fighter with the higher share of their max HP wins. A tie counts as a loss for the hero.
 
-The battle screen shows HP, block and poison stacks for both fighters, their items, a timer, and a combat log. Hover over values to see an explanation of each rule.
+The battle screen shows HP, block, poison and burn stacks for both fighters, their items with set badges, active set bonuses, a timer, and a combat log. Hover over values to see an explanation of each rule.
 
 ### Item catalog
 
-| Item | Price | Cooldown (ticks) | Effect |
-|---|---:|---:|---|
-| 🗡️ Chipped Dagger | 2 | 4 | 3 damage |
-| 🏹 Hunting Bow | 4 | 4 | 5 damage |
-| 🪓 Iron Cleaver | 5 | 8 | 12 damage |
-| 🛡️ Oak Buckler | 3 | 5 | +4 block |
-| 🍳 Pot Lid | 2 | 3 | +2 block |
-| ⚔️ Spiked Shield | 4 | 6 | 3 damage, +3 block |
-| 🐍 Viper Fang | 3 | 4 | +1 poison |
-| 🦂 Scorpion Stinger | 4 | 5 | 2 damage, +1 poison |
-| 🧪 Venom Flask | 5 | 8 | +3 poison |
-| 🌿 Healing Herb | 2 | 5 | +3 HP |
-| 🩹 Field Bandage | 3 | 6 | +2 block, +3 HP |
-| 🍖 Hearty Ration | 4 | 8 | +8 HP |
+| Item | Price | Cooldown (ticks) | Effect | Set |
+|---|---:|---:|---|---|
+| 🗡️ Chipped Dagger | 2 | 4 | 3 damage | |
+| 🏹 Hunting Bow | 4 | 4 | 5 damage | |
+| 🪓 Iron Cleaver | 5 | 8 | 12 damage | |
+| 🛡️ Oak Buckler | 3 | 5 | +4 block | |
+| 🍳 Pot Lid | 2 | 3 | +2 block | |
+| ⚔️ Spiked Shield | 4 | 6 | 3 damage, +3 block | |
+| 🐍 Viper Fang | 3 | 4 | +1 poison | 🐍 Venom |
+| 🦂 Scorpion Stinger | 4 | 5 | 2 damage, +1 poison | 🐍 Venom |
+| 🧪 Venom Flask | 5 | 8 | +3 poison | 🐍 Venom |
+| 🌿 Healing Herb | 2 | 5 | +3 HP | |
+| 🩹 Field Bandage | 3 | 6 | +2 block, +3 HP | |
+| 🍖 Hearty Ration | 4 | 8 | +8 HP | |
+| 🕯️ Ember Torch | 3 | 4 | 1 damage | 🔥 Fire |
+| 🧨 Fire Bomb | 5 | 7 | 4 damage | 🔥 Fire |
+| 🌋 Magma Buckler | 4 | 6 | +3 block | 🔥 Fire |
 
-Items have no sets. The "How it works" panel in the shop summarises these rules in the game itself.
+### Item sets
+
+A set's bonus is active while a backpack holds **2 or more** of its items. It applies to the player and to opponents alike, and it adds extra effects to every item of that set:
+
+| Set | Bonus for every item of the set |
+|---|---|
+| 🔥 Fire | +2 burn |
+| 🐍 Venom | +1 poison |
+
+The "How it works" panel in the shop summarises these rules in the game itself.
 
 ## Current starter features
 

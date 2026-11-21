@@ -5,7 +5,12 @@ export interface ItemEffects {
   poison?: number;
   /** HP restored to the item's owner (never above max HP). */
   heal?: number;
+  /** Burn stacks added to the enemy. Only granted by the Fire set bonus. */
+  burn?: number;
 }
+
+/** Item sets; see `src/sets.ts`. */
+export type SetId = "fire" | "venom";
 
 export interface ItemDef {
   id: string;
@@ -15,6 +20,8 @@ export interface ItemDef {
   /** Cooldown in battle ticks (1 tick = 0.5 s). */
   cooldown: number;
   effects: ItemEffects;
+  /** The set this item belongs to, if any. */
+  set?: SetId;
 }
 
 /** A concrete item the player owns; several instances may share one `itemId`. */
@@ -61,10 +68,12 @@ export interface FighterSnapshot {
   block: number;
   /** Poison stacks on this fighter. */
   poison: number;
+  /** Burn stacks on this fighter. */
+  burn: number;
 }
 
-/** `poison` adds stacks; `poison-tick` is the damage poison deals over time. */
-export type BattleEventKind = "damage" | "block" | "poison" | "poison-tick" | "heal";
+/** `poison`/`burn` add stacks; `poison-tick`/`burn-tick` are the damage they deal over time. */
+export type BattleEventKind = "damage" | "block" | "poison" | "poison-tick" | "heal" | "burn" | "burn-tick";
 
 export interface BattleEvent {
   tick: number;
@@ -94,13 +103,14 @@ export interface BattleResult {
   events: BattleEvent[];
 }
 
-/** An item as it fights: the catalog values it brings into battle. */
+/** An item as it fights: the catalog values it brings into battle, plus any active set bonus. */
 export interface FighterItem {
   itemId: string;
   name: string;
   icon: string;
   cooldown: number;
   effects: ItemEffects;
+  set?: SetId;
 }
 
 /** Everything `simulateBattle` needs to know about one side. */
@@ -108,6 +118,8 @@ export interface Fighter {
   name: string;
   maxHp: number;
   items: FighterItem[];
+  /** Sets whose bonus is active for this fighter (already applied to `items`' effects). */
+  activeSets: SetId[];
 }
 
 /** A simulated battle being replayed frame by frame. */
