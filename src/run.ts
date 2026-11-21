@@ -46,6 +46,29 @@ export function buyItem(state: RunState, offerIndex: number): RunState {
   return { ...state, gold: state.gold - getItem(itemId).price, shop, backpack, nextUid: state.nextUid + 1 };
 }
 
+/** Gold you get back for selling an item: half its price, rounded down. */
+export function sellPrice(itemId: string): number {
+  return Math.floor(getItem(itemId).price / 2);
+}
+
+/** Why the item in a backpack slot can't be sold right now, or `null` if it can. */
+export function sellBlocker(state: RunState, slot: number): string | null {
+  if (!state.backpack[slot]) return "Nothing to sell";
+  return null;
+}
+
+/**
+ * Sells the item in a backpack slot: refunds `sellPrice` and frees the slot; unchanged state if not allowed.
+ * The shop offer it was bought from stays sold for this round.
+ */
+export function sellItem(state: RunState, slot: number): RunState {
+  if (sellBlocker(state, slot) !== null) return state;
+  const item = state.backpack[slot]!;
+  const backpack = [...state.backpack];
+  backpack[slot] = null;
+  return { ...state, gold: state.gold + sellPrice(item.itemId), backpack };
+}
+
 export type RunOutcome = "victory" | "defeat";
 
 /** `victory` / `defeat` once the run is over, otherwise `null`. */

@@ -1,20 +1,27 @@
 import { TICK_SECONDS } from "../battle";
 import { describeEffects, getItem } from "../items";
+import { sellBlocker, sellPrice } from "../run";
 import { BACKPACK_COLS } from "../shop";
-import type { Backpack as BackpackSlots, ItemDef } from "../types";
+import type { ItemDef, RunState } from "../types";
 
 /** Hover text for a backpack slot: name, effects and cooldown. */
 const tooltip = (item: ItemDef) =>
   [item.name, ...describeEffects(item.effects).map(({ label }) => label), `⏱️ every ${item.cooldown * TICK_SECONDS}s`].join("\n");
 
-export function Backpack({ backpack }: { backpack: BackpackSlots }) {
+interface BackpackProps {
+  run: RunState;
+  onSell: (slot: number) => void;
+}
+
+export function Backpack({ run, onSell }: BackpackProps) {
   return (
     <section className="rounded-lg border border-panel-edge bg-panel p-4">
       <h2 className="font-display text-xl font-bold">🎒 Backpack</h2>
       <p className="mb-3 text-sm text-muted">Hover an item to see its stats.</p>
       <ul className="grid gap-2" style={{ gridTemplateColumns: `repeat(${BACKPACK_COLS}, minmax(0, 1fr))` }}>
-        {backpack.map((slot, index) => {
+        {run.backpack.map((slot, index) => {
           const item = slot ? getItem(slot.itemId) : null;
+          const blocker = sellBlocker(run, index);
           return (
             <li
               key={slot?.uid ?? `empty-${index}`}
@@ -31,6 +38,15 @@ export function Backpack({ backpack }: { backpack: BackpackSlots }) {
                     {item.icon}
                   </span>
                   <span className="text-center text-xs leading-tight">{item.name}</span>
+                  <button
+                    type="button"
+                    onClick={() => onSell(index)}
+                    disabled={blocker !== null}
+                    title={blocker ?? `Sell ${item.name} for ${sellPrice(item.id)} 🪙`}
+                    className="rounded bg-panel-edge px-2 py-0.5 text-xs hover:brightness-125 disabled:text-muted"
+                  >
+                    Sell +{sellPrice(item.id)} 🪙
+                  </button>
                 </>
               )}
             </li>
