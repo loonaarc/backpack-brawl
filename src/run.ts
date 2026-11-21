@@ -29,6 +29,7 @@ export function firstFreeSlot(state: RunState): number {
 export function buyBlocker(state: RunState, offerIndex: number): string | null {
   const itemId = state.shop[offerIndex];
   if (!itemId) return "Already sold";
+  if (firstFreeSlot(state) === -1) return "Backpack is full";
   if (state.gold < getItem(itemId).price) return "Not enough gold";
   return null;
 }
