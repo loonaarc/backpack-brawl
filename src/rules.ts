@@ -46,7 +46,8 @@ export const RULES: RuleSection[] = [
       `The shop offers ${SHOP_SIZE} new items every round. Reroll for ${REROLL_COST} 🪙 to replace all offers with new ones.`,
       `Bought items go to the first free slot of your ${BACKPACK_COLS}×${BACKPACK_ROWS} backpack. You can't buy when it is full.`,
       `Sell an item for half its price (rounded down) to free its slot. Its shop offer stays sold.`,
-      `Only items in your backpack fight. Their position doesn't matter.`,
+      `Click an item, then another slot to move it there; moving onto an item swaps the two. Esc or Cancel stops.`,
+      `Only items in your backpack fight. Their position doesn't matter in battle.`,
     ],
   },
   {
