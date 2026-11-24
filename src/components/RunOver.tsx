@@ -1,5 +1,6 @@
 import type { RunOutcome } from "../run";
 import type { RunState } from "../types";
+import { SubmitRunForm } from "./SubmitRunForm";
 
 export function RunOver({ run, outcome, onNewRun }: { run: RunState; outcome: RunOutcome; onNewRun: () => void }) {
   const victory = outcome === "victory";
@@ -15,7 +16,8 @@ export function RunOver({ run, outcome, onNewRun }: { run: RunState; outcome: Ru
         {run.wins} {run.wins === 1 ? "win" : "wins"} in {run.round} {run.round === 1 ? "round" : "rounds"}, {run.lives}{" "}
         {run.lives === 1 ? "life" : "lives"} left.
       </p>
-      <button type="button" onClick={onNewRun} autoFocus className="rounded-md bg-gold px-5 py-2 font-display font-bold text-ink hover:brightness-110">
+      <SubmitRunForm key={run.runId} run={run} outcome={outcome} />
+      <button type="button" onClick={onNewRun} className="rounded-md bg-panel-edge px-5 py-2 font-display font-bold hover:brightness-110">
         🎒 New run
       </button>
     </section>

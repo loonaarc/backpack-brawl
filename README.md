@@ -54,6 +54,10 @@ Battle time runs in **ticks of 0.5 s**:
 
 The battle screen shows HP, block, poison and burn stacks for both fighters, their items with set badges, active set bonuses, a timer, and a combat log. Hover over values to see an explanation of each rule.
 
+### Hall of Fame
+
+After a run ends, enter a name and select **Submit run**. **Hall of Fame** in the navigation shows victories first, then more wins and fewer rounds. Earlier entries win ties. The local API keeps one entry per run and clears the table on restart.
+
 ### Item catalog
 
 | Item | Price | Cooldown (ticks) | Effect | Set |
@@ -97,7 +101,7 @@ The "How it works" panel in the shop summarises these rules in the game itself.
 - Tooltips and a rules panel explaining every mechanic.
 - A responsive React interface styled with Tailwind CSS.
 
-The starter does **not** include any automated tests. Vitest is installed and configured; add your own tests as `*.test.ts` files next to the code they test.
+Run the automated tests with `pnpm test` or `npm test`. Vitest discovers `*.test.ts` and `*.test.js` files next to the code they cover.
 
 ## Run locally
 
@@ -116,13 +120,15 @@ The web app runs at `http://localhost:5174`; its API runs at `http://localhost:4
 | `pnpm server` | Start only the API on port 4200 |
 | `pnpm build` | Type-check and create a production frontend build |
 | `pnpm lint` | Run ESLint over the project |
-| `pnpm test` | Run all Vitest tests once (there are none yet) |
+| `pnpm test` | Run all Vitest tests once |
 | `pnpm preview` | Preview a previously created production build |
 
 ## API
 
 - `GET /api/health`
 - `GET /api/opponents?round=1`
+- `GET /api/leaderboard`
+- `POST /api/leaderboard`
 
 The opponent for each round is fixed. Add `?latency=2500` to change the delay (default 1200 ms, at most 5000 ms) or `?fail=true` to force a failed request. Starting the server with `API_FAIL=true` makes every opponent request fail.
 
