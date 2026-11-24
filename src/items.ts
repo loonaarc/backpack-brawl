@@ -20,6 +20,10 @@ export const CATALOG: ItemDef[] = [
 
 const byId = new Map(CATALOG.map((item) => [item.id, item]));
 
+export function isItemId(value: unknown): value is string {
+  return typeof value === "string" && byId.has(value);
+}
+
 export function getItem(id: string): ItemDef {
   const item = byId.get(id);
   if (!item) throw new Error(`Unknown item: ${id}`);

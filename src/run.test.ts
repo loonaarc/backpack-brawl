@@ -4,7 +4,7 @@ import type { RunState } from "./types";
 
 /** A run with a known shop: every offer is a Chipped Dagger (price 2). */
 const runWithDaggers = (overrides: Partial<RunState> = {}): RunState => ({
-  ...newRun(42),
+  ...newRun(42, "00000000000000000000000000000001"),
   shop: ["chipped-dagger", "chipped-dagger", "chipped-dagger", "chipped-dagger"],
   ...overrides,
 });

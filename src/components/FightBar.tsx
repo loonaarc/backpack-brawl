@@ -1,3 +1,4 @@
+import { REFRESH_HELP } from "../rules";
 import type { Phase } from "../types";
 
 interface FightBarProps {
@@ -18,7 +19,10 @@ export function FightBar({ phase, blocker, error, onFight }: FightBarProps) {
             ⚠️ {error} Try again.
           </p>
         ) : searching ? (
-          <p className="animate-pulse font-bold text-gold">🔭 Searching the arena for a challenger…</p>
+          <>
+            <p className="animate-pulse font-bold text-gold">🔭 Searching the arena for a challenger…</p>
+            <p className="text-sm text-muted">{REFRESH_HELP.search}</p>
+          </>
         ) : (
           <p className="text-sm text-muted">Only items in your backpack fight. Ready when you are.</p>
         )}

@@ -12,11 +12,12 @@ const opponent: Opponent = {
   items: ["chipped-dagger", "pot-lid"],
 };
 
-const readyShop = () => updateRun(newGame(42), (run) => buyItem(run, 0));
+const runId = "00000000000000000000000000000001";
+const readyShop = () => updateRun(newGame(42, runId), (run) => buyItem(run, 0));
 
 describe("opponent search", () => {
   it("blocks an empty backpack and a second search", () => {
-    const emptyShop = newGame(42);
+    const emptyShop = newGame(42, runId);
     expect(startSearch(emptyShop, 1)).toBe(emptyShop);
 
     const searching = startSearch(readyShop(), 2);

@@ -41,6 +41,11 @@ export const SET_HELP = Object.fromEntries(
 
 export const COOLDOWN_HELP = `Cooldown: the item fires every time this much battle time has passed (1 tick = ${TICK_SECONDS} s).`;
 
+export const REFRESH_HELP = {
+  search: "Refreshing during a search returns you to the same shop.",
+  battle: "Refreshing during a battle skips the replay and shows its result.",
+};
+
 /** Tooltip per fighter status shown in battle. */
 export const STATUS_HELP = {
   hp: "HP: reaching 0 is a knockout.",
@@ -91,6 +96,14 @@ export const RULES: RuleSection[] = [
     rules: [
       `Some items belong to a set (badge on the item). With ${SET_BONUS_MIN_ITEMS} or more items of a set in a backpack, its bonus is active — for you and for opponents.`,
       ...Object.values(SET_HELP),
+    ],
+  },
+  {
+    title: "Save and resume",
+    rules: [
+      "Your run is saved automatically in this browser.",
+      REFRESH_HELP.search,
+      REFRESH_HELP.battle,
     ],
   },
 ];
