@@ -1,10 +1,8 @@
-import { CATALOG } from "./items";
+import { isItemId } from "./items";
 import { BACKPACK_SIZE } from "./shop";
 import type { Opponent } from "./types";
 
-const itemIds = new Set(CATALOG.map((item) => item.id));
-
-function isOpponent(value: unknown): value is Opponent {
+export function isOpponent(value: unknown): value is Opponent {
   if (!value || typeof value !== "object") return false;
   const { id, name, icon, hp, round, items } = value as Partial<Opponent>;
   return typeof id === "string"
@@ -13,7 +11,7 @@ function isOpponent(value: unknown): value is Opponent {
     && typeof hp === "number" && Number.isFinite(hp) && hp > 0
     && typeof round === "number" && Number.isSafeInteger(round) && round > 0
     && Array.isArray(items) && items.length <= BACKPACK_SIZE
-    && items.every((itemId) => itemIds.has(itemId));
+    && items.every(isItemId);
 }
 
 export async function fetchOpponent(round: number, signal?: AbortSignal): Promise<Opponent> {

@@ -8,8 +8,8 @@ import type { BattleReplay, GameState, Opponent, RunState } from "./types";
  * Every function is pure, so they can be passed straight to `setState`.
  */
 
-export function newGame(seed: number): GameState {
-  return { phase: "shop", run: newRun(seed), search: null, battle: null, error: null };
+export function newGame(seed: number, runId: string): GameState {
+  return { phase: "shop", run: newRun(seed, runId), search: null, battle: null, error: null };
 }
 
 /** Applies a shop/backpack action; only allowed while shopping. */
@@ -48,10 +48,14 @@ export function startBattle(game: GameState, id: number, opponent: Opponent): Ga
     return searchFailed(game, id, "The arena returned an opponent for a different round.");
   }
 
-  const player = buildPlayerFighter(game.run.backpack);
+  return { ...game, phase: "battle", search: null, battle: createBattleReplay(game.run, opponent) };
+}
+
+export function createBattleReplay(run: RunState, opponent: Opponent): BattleReplay {
+  const player = buildPlayerFighter(run.backpack);
   const enemy = buildOpponentFighter(opponent);
   const result = simulateBattle(player, enemy);
-  return { ...game, phase: "battle", search: null, battle: { opponent, player, enemy, result, frame: 0 } };
+  return { opponent, runBeforeBattle: run, player, enemy, result, frame: 0 };
 }
 
 export const isReplayDone = (battle: BattleReplay) => battle.frame >= battle.result.frames.length - 1;

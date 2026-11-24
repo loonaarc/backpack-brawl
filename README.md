@@ -32,6 +32,10 @@ A won battle gives +1 win, a lost battle costs one life. The run ends with a vic
 
 Shop rolls are driven by a seeded random number generator stored in the run state, so the same seed always produces the same offers.
 
+### Save and resume
+
+Your run saves automatically in this browser. Refreshing in the shop keeps the same offers, gold and backpack. Refreshing during a search reopens that shop. Refreshing during a battle shows the result of that same fight. The final result also survives a refresh. Use **Continue run** on the home page to return to your saved screen.
+
 ### Battles
 
 Press **Find opponent** to request this round's opponent from the local API. The request is deliberately slow, so there is a short "searching" phase. While searching, the button, shop and backpack are locked. If the search fails or takes more than 8 seconds, you return to the same shop and can try again.

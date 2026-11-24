@@ -39,6 +39,8 @@ export type ShopOffers = (string | null)[];
 export type Phase = "shop" | "searching" | "battle" | "finished";
 
 export interface RunState {
+  /** Stable across rounds and refreshes. */
+  runId: string;
   round: number;
   gold: number;
   lives: number;
@@ -125,6 +127,8 @@ export interface Fighter {
 /** A simulated battle being replayed frame by frame. */
 export interface BattleReplay {
   opponent: Opponent;
+  /** The run before the replay applied its result. */
+  runBeforeBattle: RunState;
   player: Fighter;
   enemy: Fighter;
   result: BattleResult;

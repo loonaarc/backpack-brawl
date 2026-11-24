@@ -40,4 +40,4 @@ Owner: Marat · Issue: [#5](https://github.com/loonaarc/backpack-brawl/issues/5)
 
 ## Known limitations
 
-- Refreshing the page resets the run. Save and resume belongs to B6.
+- Refreshing ends the active request. [B6](B6-save-resume.md) explains how the player returns to the same shop.

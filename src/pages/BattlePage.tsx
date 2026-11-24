@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { BattleView } from "../components/BattleView";
 import { RunHeader } from "../components/RunHeader";
 import { advanceReplay, isReplayDone, leaveBattle, skipReplay } from "../game";
+import { REFRESH_HELP } from "../rules";
 import { runOutcome } from "../run";
 import { useActiveGame } from "../state/GameContext";
 
@@ -27,6 +28,7 @@ export function BattlePage() {
   return (
     <>
       <RunHeader run={run} />
+      {!done && <p className="text-sm text-muted">{REFRESH_HELP.battle}</p>}
       <BattleView
         battle={battle}
         done={done}
