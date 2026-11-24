@@ -34,7 +34,7 @@ Shop rolls are driven by a seeded random number generator stored in the run stat
 
 ### Battles
 
-Press **Find opponent** to request this round's opponent from the local API. The request is deliberately slow, so there is a short "searching" phase. While searching, the shop and the backpack are locked.
+Press **Find opponent** to request this round's opponent from the local API. The request is deliberately slow, so there is a short "searching" phase. While searching, the button, shop and backpack are locked. If the search fails or takes more than 8 seconds, you return to the same shop and can try again.
 
 Once the opponent arrives, the whole battle is simulated at once and then replayed on screen, one step every 250 ms. **Skip** jumps straight to the end. The result is applied to the run when the replay reaches its last step; the button below the result then leads to the next round's shop or to the end screen.
 

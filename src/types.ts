@@ -136,6 +136,8 @@ export interface BattleReplay {
 export interface GameState {
   phase: Phase;
   run: RunState;
+  /** The active opponent search, scoped to one attempt and round. */
+  search: { id: number; round: number } | null;
   /** Set while `phase === "battle"`. */
   battle: BattleReplay | null;
   /** Last opponent-search error, shown in the shop. */
