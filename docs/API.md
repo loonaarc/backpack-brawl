@@ -1,6 +1,6 @@
 # Backpack Brawl API
 
-The local API is a small Express server in `server/index.js`. It listens on port 4200 (override with the `PORT` environment variable). During Vite development, `/api` is proxied to it, so the frontend uses relative URLs such as `/api/opponents?round=1`. All responses are JSON. The server keeps no state: restarting it changes nothing about the answers.
+The local API is a small Express server in `server/index.js`. It listens on port 4200 (override with the `PORT` environment variable). During Vite development, `/api` is proxied to it, so the frontend uses relative URLs such as `/api/opponents?round=1`. The leaderboard is stored in memory and clears when the API restarts.
 
 ## `GET /api/health`
 
@@ -62,6 +62,38 @@ Every error response has the shape:
 | 503 | `fail=true`, or the server was started with `API_FAIL=true` | `The arena gates are shut. No challenger answered the call.` |
 
 An invalid `round` is reported as 400 even when failure is forced. All responses from this endpoint, errors included, arrive after the configured delay.
+
+## `GET /api/leaderboard`
+
+Returns **200** and a JSON array of entries in rank order. Victories come first, followed by higher win counts and fewer rounds. Equal scores retain submission order. An empty board returns `[]`.
+
+An optional `runId` query parameter looks up one run. The response is either `[entry]` or `[]`. An invalid ID returns **400**.
+
+## `POST /api/leaderboard`
+
+Send a finished run as `application/json`. The response entry has the same fields as the request.
+
+```json
+{
+  "runId": "00000000000000000000000000000001",
+  "name": "Arena Hero",
+  "outcome": "victory",
+  "wins": 5,
+  "rounds": 6,
+  "lives": 2
+}
+```
+
+| Field | Validation |
+|---|---|
+| `runId` | 32 lowercase hexadecimal characters, generated once per run |
+| `name` | 1–24 characters after trimming, with no embedded control characters |
+| `outcome` | `victory` or `defeat` |
+| `wins`, `rounds`, `lives` | Whole numbers with `rounds = wins + 3 − lives`. A victory has exactly 5 wins and 1–3 lives. A defeat has 0–4 wins and 0 lives. |
+
+**201** returns the newly recorded entry. A repeat with the same `runId` and a valid payload returns **200** with the first accepted entry. This keeps one result even if the first response was lost.
+
+Invalid data or malformed JSON returns **400** with `{ "error": "human-readable explanation" }`. Bodies over 4 KB return **413**. A missing or unsupported content type, charset or content encoding returns **415**.
 
 ## Environment variables
 
