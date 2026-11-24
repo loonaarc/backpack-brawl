@@ -75,4 +75,4 @@ Example: `API_FAIL=true pnpm server`.
 
 ## Client
 
-`fetchOpponent(round)` in `src/api.ts` performs the request. It resolves with the `Opponent` on success and throws an `Error` carrying the server's `error` text (or a generic message with the status code) for any non-2xx response. When the API is not running, the Vite proxy answers with an error status of its own, which is reported the same way; a network failure rejects as well.
+`fetchOpponent(round, signal?)` in `src/api.ts` validates the opponent response and accepts an optional abort signal. It reports HTTP errors using the server's message when available, with a status-code fallback. Network failures and invalid opponent data produce their own errors. The game cancels a search after 8 seconds and lets the player retry from the same shop.
