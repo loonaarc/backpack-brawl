@@ -42,14 +42,14 @@ Solid arrow = must come first. Dashed arrow = easier if it comes first, but not 
 
 1. Assign yourself to the issue. Then `git pull` on `main` and `git switch -c feat/bX-short-name`.
 2. Make small commits with meaningful messages that reference the issue, e.g. `feat(shop): add sell action with half refund (#1)`. **Push often**, because the other person can see your branch on GitHub without a merge.
-3. Document the implementation of the issue: copy [`docs/features/_TEMPLATE.md`](features/_TEMPLATE.md) to `docs/features/Bx-<name>.md` (e.g. `B1-shop-economy.md`) and fill it in on the same branch. Cover the code path, the decisions you made, the values you chose, and how you verified it. Write it while you work, not afterwards. It's also study material for the exam.
+3. Document the implementation of the issue: copy [`docs/features/_TEMPLATE.md`](features/_TEMPLATE.md) to `docs/features/Bx-<name>.md` (e.g. `B1-shop-economy.md`) and fill it in on the same branch. Cover the code path, the decisions you made, the values you chose, and how you verified it. Write it while you work, not afterwards.
 4. **Update your branch:** `git fetch` and then `git rebase origin/main`. This puts your commits on top of the latest `main`, so you resolve conflicts on your branch and never on `main`.
 5. **Check the combined state:** run `npm run check`, then `git push --force-with-lease`. Force is needed because the rebase rewrote your branch. `--force-with-lease` refuses if someone else pushed to it in the meantime. Wait for the CI run (`.github/workflows/check.yml`, runs automatically on every push) to show ✅ next to the commit or in the Actions tab. **Only merge on ✅.**
 6. **Merge:** `git switch main && git pull && git merge --no-ff feat/bX-… -m "Merge B1 shop economy, closes #1"`, then `git push`. If `main` moved since step 4, go back to step 4.
    `--no-ff` keeps the feature as its own merge commit even though the rebase would allow a fast-forward. `closes #1` closes the issue automatically.
    **Only rebase your own feature branch. Never rebase `main`.**
 7. If you stop mid-feature, leave a short comment on the issue saying where you stopped and what's next.
-8. **Read each other's merged features.** Each of us will be asked about all of the code in the exam.
+8. **Read each other's merged features**, so both of us know all of the code.
 
 ## Bugs already in the starter (found while reading the code, verify before fixing)
 

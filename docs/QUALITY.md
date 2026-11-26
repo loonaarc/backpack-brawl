@@ -1,12 +1,12 @@
 # Qualitative goals
 
-We chose three goals that fit how Backpack Brawl is used: a single-player browser game that keeps a run going over many minutes, talks to a slow local API, and is reloaded at any time. A fourth goal applies to us as a team: we have to explain every part of the code in the exam.
+We chose three goals that fit how Backpack Brawl is used: a single-player browser game that keeps a run going over many minutes, talks to a slow local API, and is reloaded at any time.
 
 | # | Goal | In one sentence |
 |---|---|---|
 | Q1 | Integrity of game state | Gold, items and results can never be corrupted, duplicated or applied twice. |
 | Q2 | Robustness at the boundaries | Slow or failed requests, broken saves and bad input never break the game. |
-| Q3 | Understandability | Players understand every rule, and each of us can explain every part of the code. |
+| Q3 | Understandability | Players understand every rule, and the code is easy to follow and change. |
 
 ---
 
@@ -70,7 +70,7 @@ Any of these must never leave the player stuck on a broken screen.
 
 **Why it matters:**
 - **Players:** the game must explain its mechanics in the interface (B3 and B4 explicitly require explanations in the rules panel and tooltips).
-- **Us:** the professor values "appropriate and understandable implementations" over complexity, and both of us must navigate and explain all of the code without tools.
+- **Developers:** two people work on the same codebase in parallel. Each of us has to be able to read, review and change code the other wrote without asking first.
 
 **Decisions and trade-offs:**
 - **Rule texts are generated from the constants** (`rules.ts`, `describeEffects`, `describeSetBonus`). Changing a value like `POISON_INTERVAL` updates the explanation automatically, so the texts can't go stale.
@@ -80,14 +80,14 @@ Any of these must never leave the player stuck on a broken screen.
   - Set bonuses are applied once in `buildFighter`, not inside the simulation. ([B4](features/B4-item-sets-burn.md))
   - Arranging uses two clicks instead of drag and drop. ([B2](features/B2-backpack-arrangement.md))
   - The hall of fame is an in-memory map instead of a database. ([B7](features/B7-hall-of-fame.md))
-- **One doc per feature** (`docs/features/`). Each describes the code path, decisions, values and verification, and serves as study material for the exam.
+- **One doc per feature** (`docs/features/`). Each describes the code path, decisions, values and verification, so a feature can be understood without reading its whole diff.
 - **Tests only where they add value.** We decided per issue, so there are 30 short tests in total, focused on rules that are hard to check by hand.
 
 **How we check it:**
 - Every mechanic appears in the rules panel and has a tooltip (manual check per feature, listed in each doc).
 - `npm run check` (lint, tests, build) runs in CI on every push.
-- Before the exam, each of us explains the other's features from the feature doc alone.
-- **Status:** rules panel and tooltips are done; the mutual explanation session is still to do.
+- Each of us went through the other's features using the feature doc and the code.
+- **Status:** all checks pass.
 
 ---
 

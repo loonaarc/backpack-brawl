@@ -7,7 +7,7 @@ A few sentences, in your own words.
 
 ## How it works (code path)
 Where it starts and which functions and files it goes through, e.g. click on "Sell" → `ShopPage.handleSell` → `updateRun` → `sellItem` (`run.ts`).
-This doubles as study material: the other person should be able to explain the feature from this section.
+The other person should be able to follow the feature from this section.
 
 ## Decisions
 For each open point in the requirement:
